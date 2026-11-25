@@ -23,7 +23,7 @@
         body {
             background-color: var(--bg-dark);
             color: var(--text-light);
-            padding-bottom: 90px;
+            padding-bottom: 95px;
         }
         header {
             background-color: #0d0d0d;
@@ -31,7 +31,6 @@
             padding: 25px 15px;
             border-bottom: 3px solid var(--accent);
         }
-        /* ESPACIO PARA EL LOGO */
         .logo-container {
             width: 120px;
             height: 120px;
@@ -73,12 +72,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.4);
             border-left: 4px solid var(--accent);
         }
         .product-info h2 {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
+            font-size: 1.15rem;
+            margin-bottom: 4px;
         }
         .product-info .desc {
             font-size: 0.85rem;
@@ -86,17 +86,18 @@
             margin-bottom: 8px;
         }
         .product-info .price {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: var(--accent);
         }
         .controls {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             background: #141414;
             padding: 6px 10px;
             border-radius: 8px;
+            flex-shrink: 0;
         }
         .btn-qty {
             background-color: var(--accent);
@@ -116,9 +117,9 @@
             background-color: var(--accent-hover);
         }
         .qty-display {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: bold;
-            min-width: 20px;
+            min-width: 58px;
             text-align: center;
         }
         .order-details {
@@ -189,8 +190,7 @@
 
     <header>
         <div class="logo-container">
-            <!-- REEMPLAZA EL SRC CON EL LINK DE TU LOGO (ej: logo.png) -->
-            <img src="https://via.placeholder.com/150/f39c12/000000?text=TU+LOGO" alt="Logo La Fábrica de las Milanesas">
+            <img src="retouch_2026112512531659.png" alt="Logo La Fábrica de las Milanesas">
         </div>
         <h1>La Fábrica de las Milanesas</h1>
         <p>Local • Elaboración artesanal lista para cocinar</p>
@@ -201,13 +201,13 @@
         <div class="product-card">
             <div class="product-info">
                 <h2>Milanesas de Carne</h2>
-                <p class="desc">Tiernas, rebozado crocante artesanal.</p>
-                <div class="price">$590</div>
+                <p class="desc">Apanadas, sin fritar, listas para cocinar.</p>
+                <div class="price">$590 / kg</div>
             </div>
             <div class="controls">
-                <button class="btn-qty" onclick="updateQty('carne', -1)">-</button>
-                <span class="qty-display" id="qty-carne">0</span>
-                <button class="btn-qty" onclick="updateQty('carne', 1)">+</button>
+                <button class="btn-qty" onclick="updateQty('carne', -0.5)">-</button>
+                <span class="qty-display" id="qty-carne">0 kg</span>
+                <button class="btn-qty" onclick="updateQty('carne', 0.5)">+</button>
             </div>
         </div>
 
@@ -215,13 +215,13 @@
         <div class="product-card">
             <div class="product-info">
                 <h2>Milanesas de Pollo</h2>
-                <p class="desc">Pechuga seleccionada, súper sabrosas.</p>
-                <div class="price">$390</div>
+                <p class="desc">Apanadas, sin fritar, listas para cocinar.</p>
+                <div class="price">$390 / kg</div>
             </div>
             <div class="controls">
-                <button class="btn-qty" onclick="updateQty('pollo', -1)">-</button>
-                <span class="qty-display" id="qty-pollo">0</span>
-                <button class="btn-qty" onclick="updateQty('pollo', 1)">+</button>
+                <button class="btn-qty" onclick="updateQty('pollo', -0.5)">-</button>
+                <span class="qty-display" id="qty-pollo">0 kg</span>
+                <button class="btn-qty" onclick="updateQty('pollo', 0.5)">+</button>
             </div>
         </div>
 
@@ -229,13 +229,13 @@
         <div class="product-card">
             <div class="product-info">
                 <h2>Hamburguesas de Carne</h2>
-                <p class="desc">100% carne vacuna condimentada.</p>
-                <div class="price">$390</div>
+                <p class="desc">100% carne vacuna, listas para cocinar.</p>
+                <div class="price">$390 / kg</div>
             </div>
             <div class="controls">
-                <button class="btn-qty" onclick="updateQty('hamburguesa', -1)">-</button>
-                <span class="qty-display" id="qty-hamburguesa">0</span>
-                <button class="btn-qty" onclick="updateQty('hamburguesa', 1)">+</button>
+                <button class="btn-qty" onclick="updateQty('hamburguesa', -0.5)">-</button>
+                <span class="qty-display" id="qty-hamburguesa">0 kg</span>
+                <button class="btn-qty" onclick="updateQty('hamburguesa', 0.5)">+</button>
             </div>
         </div>
 
@@ -269,19 +269,23 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN: PON AQUÍ TU NÚMERO DE WHATSAPP CON CÓDIGO DE PAÍS (SIN + NI ESPACIOS)
-        const TELEFONO_WHATSAPP = "59899000000";
+        const TELEFONO_WHATSAPP = "59896643887";
 
         const productos = {
-            carne: { nombre: "Milanesas de Carne", precio: 590, cantidad: 0 },
-            pollo: { nombre: "Milanesas de Pollo", precio: 390, cantidad: 0 },
-            hamburguesa: { nombre: "Hamburguesas de Carne", precio: 390, cantidad: 0 }
+            carne: { nombre: "Milanesas de Carne", precio: 590, kilos: 0 },
+            pollo: { nombre: "Milanesas de Pollo", precio: 390, kilos: 0 },
+            hamburguesa: { nombre: "Hamburguesas de Carne", precio: 390, kilos: 0 }
         };
 
+        function formatKilos(kg) {
+            return Number.isInteger(kg) ? `${kg} kg` : `${kg.toString().replace('.', ',')} kg`;
+        }
+
         function updateQty(id, delta) {
-            if (productos[id].cantidad + delta >= 0) {
-                productos[id].cantidad += delta;
-                document.getElementById(`qty-${id}`).innerText = productos[id].cantidad;
+            const nuevoValor = Math.round((productos[id].kilos + delta) * 10) / 10;
+            if (nuevoValor >= 0) {
+                productos[id].kilos = nuevoValor;
+                document.getElementById(`qty-${id}`).innerText = formatKilos(nuevoValor);
                 calcularTotal();
             }
         }
@@ -289,11 +293,12 @@
         function calcularTotal() {
             let total = 0;
             for (let key in productos) {
-                total += productos[key].cantidad * productos[key].precio;
+                total += productos[key].kilos * productos[key].precio;
             }
-            document.getElementById('total-price').innerText = `$${total}`;
-            document.getElementById('btn-send').disabled = (total === 0);
-            return total;
+            const totalRedondeado = Math.round(total);
+            document.getElementById('total-price').innerText = `$${totalRedondeado}`;
+            document.getElementById('btn-send').disabled = (totalRedondeado === 0);
+            return totalRedondeado;
         }
 
         function toggleDireccion() {
@@ -319,18 +324,18 @@
             mensaje += `\n*Detalle del pedido:*\n`;
 
             for (let key in productos) {
-                if (productos[key].cantidad > 0) {
-                    const subtotal = productos[key].cantidad * productos[key].precio;
-                    mensaje += `• ${productos[key].cantidad}x ${productos[key].nombre} ($${subtotal})\n`;
+                if (productos[key].kilos > 0) {
+                    const subtotal = Math.round(productos[key].kilos * productos[key].precio);
+                    mensaje += `• ${formatKilos(productos[key].kilos)} de ${productos[key].nombre} ($${subtotal})\n`;
                 }
             }
 
             mensaje += `\n*TOTAL: $${total}*`;
 
-            const url = `https://wa.me/https://wa.me/59896643887?text=${encodeURIComponent(mensaje)}`;
+            const url = `https://wa.me/${TELEFONO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
             window.open(url, '_blank');
         }
     </script>
 </body>
-                                                            </html>
-                                                            
+            </html>
+            
