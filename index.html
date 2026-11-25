@@ -246,13 +246,13 @@
                 <input type="text" id="cliente-nombre" placeholder="Tu nombre">
             </div>
             <div class="input-group">
-                <select id="tipo-entrega" onchange="toggleDireccion()">
-                    <option value="Retiro en el local">Retiro en el local</option>
+                <select id="tipo-entrega">
                     <option value="Envío a domicilio">Envío a domicilio</option>
+                    <option value="Retiro en el local">Retiro en el local</option>
                 </select>
             </div>
-            <div class="input-group" id="direccion-group" style="display: none;">
-                <input type="text" id="cliente-direccion" placeholder="Dirección de entrega">
+            <div class="input-group" id="direccion-group">
+                <input type="text" id="cliente-direccion" placeholder="Dirección de entrega (calle, número, esquina o referencias)">
             </div>
         </div>
     </div>
@@ -301,26 +301,18 @@
             return totalRedondeado;
         }
 
-        function toggleDireccion() {
-            const tipo = document.getElementById('tipo-entrega').value;
-            const dirGroup = document.getElementById('direccion-group');
-            dirGroup.style.display = (tipo === "Envío a domicilio") ? "block" : "none";
-        }
-
         function enviarPedido() {
             const total = calcularTotal();
             if (total === 0) return;
 
             const nombre = document.getElementById('cliente-nombre').value.trim() || "Cliente";
             const entrega = document.getElementById('tipo-entrega').value;
-            const direccion = document.getElementById('cliente-direccion').value.trim();
+            const direccion = document.getElementById('cliente-direccion').value.trim() || "No especificada";
 
             let mensaje = `*NUEVO PEDIDO - LA FÁBRICA DE LAS MILANESAS (Local)*\n\n`;
             mensaje += `*Cliente:* ${nombre}\n`;
             mensaje += `*Modalidad:* ${entrega}\n`;
-            if (entrega === "Envío a domicilio" && direccion !== "") {
-                mensaje += `*Dirección:* ${direccion}\n`;
-            }
+            mensaje += `*Dirección:* ${direccion}\n`;
             mensaje += `\n*Detalle del pedido:*\n`;
 
             for (let key in productos) {
@@ -337,5 +329,5 @@
         }
     </script>
 </body>
-            </html>
-            
+                    </html>
+                    
