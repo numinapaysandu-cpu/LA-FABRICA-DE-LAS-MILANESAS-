@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>La Fábrica de las Milanesas — Tienda Oficial</title>
   <style>
     :root {
@@ -16,14 +16,21 @@
       --border: #333333;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-    body { background-color: var(--bg-dark); color: var(--text-light); padding-bottom: 105px; -webkit-tap-highlight-color: transparent; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      padding-bottom: calc(118px + env(safe-area-inset-bottom, 0px));
+      -webkit-tap-highlight-color: transparent;
+    }
 
     .top-strip {
       background-color: #080808;
       color: var(--text-muted);
-      font-size: 0.78rem;
+      font-size: 0.74rem;
+      line-height: 1.35;
       text-align: center;
-      padding: 8px 12px;
+      padding: calc(10px + env(safe-area-inset-top, 0px)) 12px 10px;
+      padding-top: max(28px, calc(10px + env(safe-area-inset-top, 0px)));
       border-bottom: 1px solid #262626;
     }
     .top-strip strong { color: var(--accent); }
@@ -31,7 +38,7 @@
     header {
       background-color: #0d0d0d;
       text-align: center;
-      padding: 24px 15px;
+      padding: 20px 15px;
       border-bottom: 3px solid var(--accent);
     }
     .logo-container {
@@ -47,8 +54,8 @@
       background-color: #1f1f1f;
     }
     .logo-container img { width: 100%; height: 100%; object-fit: cover; }
-    header h1 { font-size: 1.55rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
-    header p { color: var(--text-muted); font-size: 0.92rem; margin-top: 4px; }
+    header h1 { font-size: 1.5rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+    header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
     .badges-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
     .badge-pill {
       background: #1b1b1b;
@@ -60,48 +67,42 @@
     }
     .badge-pill.accent { border-color: var(--accent); color: var(--accent); font-weight: 600; }
 
-    .container { max-width: 640px; margin: 18px auto; padding: 0 15px; }
+    .container { max-width: 640px; margin: 16px auto; padding: 0 14px; }
 
-    .filter-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 18px; }
+    .filter-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 16px; }
     .tab-btn {
       background: var(--card-bg);
       color: var(--text-muted);
       border: 1px solid var(--border);
       padding: 9px 14px;
       border-radius: 999px;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
     }
     .tab-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
 
-    .section-block { margin-bottom: 24px; }
+    .section-block { margin-bottom: 22px; }
     .section-block.hidden { display: none; }
-    .section-heading {
-      font-size: 1.05rem;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      margin-bottom: 4px;
-    }
+    .section-heading { font-size: 1.02rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; }
     .section-sub { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px; }
 
     .product-card {
       background-color: var(--card-bg);
       border-radius: 12px;
-      padding: 16px;
+      padding: 15px;
       margin-bottom: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.4);
       border-left: 4px solid var(--accent);
     }
     .product-card.featured { background-color: #292318; }
     .product-card.column-card { flex-direction: column; align-items: stretch; }
-    .product-info { flex: 1; }
+    .product-info { flex: 1; min-width: 0; }
     .tag-mini {
       display: inline-block;
       background: #141414;
@@ -113,19 +114,19 @@
       border-radius: 6px;
       margin-bottom: 6px;
     }
-    .product-info h3 { font-size: 1.1rem; margin-bottom: 4px; }
-    .product-info .desc { font-size: 0.84rem; color: var(--text-muted); margin-bottom: 8px; line-height: 1.4; }
-    .combo-list { list-style: none; font-size: 0.83rem; color: #d6d6d6; margin-bottom: 8px; }
+    .product-info h3 { font-size: 1.06rem; margin-bottom: 4px; }
+    .product-info .desc { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px; line-height: 1.38; }
+    .combo-list { list-style: none; font-size: 0.82rem; color: #d6d6d6; margin-bottom: 8px; }
     .combo-list li::before { content: "• "; color: var(--accent); font-weight: bold; }
-    .product-info .price { font-size: 1.15rem; font-weight: bold; color: var(--accent); }
-    .price-promo { font-size: 0.78rem; color: #8be9a8; margin-top: 2px; font-weight: 600; }
+    .product-info .price { font-size: 1.12rem; font-weight: bold; color: var(--accent); }
+    .price-promo { font-size: 0.76rem; color: #8be9a8; margin-top: 2px; font-weight: 600; }
 
     .controls {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       background: #141414;
-      padding: 6px 10px;
+      padding: 6px 8px;
       border-radius: 8px;
       flex-shrink: 0;
     }
@@ -133,10 +134,10 @@
       background-color: var(--accent);
       color: #000;
       border: none;
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 6px;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: bold;
       cursor: pointer;
       display: flex;
@@ -145,7 +146,7 @@
     }
     .btn-qty:active { background-color: var(--accent-hover); }
     .btn-qty:disabled { background-color: #3a3a3a; color: #777; cursor: not-allowed; }
-    .qty-display { font-size: 0.96rem; font-weight: bold; min-width: 56px; text-align: center; }
+    .qty-display { font-size: 0.92rem; font-weight: bold; min-width: 52px; text-align: center; }
 
     .budin-row { display: flex; gap: 8px; margin-top: 8px; }
     .budin-row select {
@@ -155,7 +156,7 @@
       border: 1px solid var(--border);
       background: #141414;
       color: var(--text-light);
-      font-size: 0.92rem;
+      font-size: 0.9rem;
     }
     .btn-add-budin {
       background: var(--accent);
@@ -164,7 +165,7 @@
       border-radius: 8px;
       padding: 0 14px;
       font-weight: 700;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       cursor: pointer;
     }
     .budin-selected-list { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
@@ -175,25 +176,25 @@
       background: #141414;
       padding: 6px 10px;
       border-radius: 8px;
-      font-size: 0.86rem;
+      font-size: 0.85rem;
     }
 
     .order-details {
       background-color: var(--card-bg);
       border-radius: 12px;
-      padding: 18px;
-      margin-top: 20px;
+      padding: 16px;
+      margin-top: 18px;
       border-left: 4px solid var(--accent);
     }
-    .order-details h3 { margin-bottom: 12px; color: var(--accent); font-size: 1.08rem; }
-    .field-label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .order-details h3 { margin-bottom: 12px; color: var(--accent); font-size: 1.06rem; }
+    .field-label { display: block; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
 
     .payment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
     .pay-card {
       background: #141414;
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 11px;
+      padding: 10px;
       cursor: pointer;
       display: flex;
       align-items: flex-start;
@@ -201,8 +202,8 @@
     }
     .pay-card.selected { border-color: var(--accent); background: #262015; }
     .pay-card input { accent-color: var(--accent); margin-top: 3px; }
-    .pay-card strong { display: block; font-size: 0.92rem; color: var(--text-light); }
-    .pay-card span { display: block; font-size: 0.75rem; color: var(--text-muted); }
+    .pay-card strong { display: block; font-size: 0.9rem; color: var(--text-light); }
+    .pay-card span { display: block; font-size: 0.74rem; color: var(--text-muted); }
 
     .transfer-box {
       display: none;
@@ -240,9 +241,9 @@
       border: 1px solid var(--border);
       background-color: #141414;
       color: var(--text-light);
-      font-size: 0.95rem;
+      font-size: 0.94rem;
     }
-    .input-group textarea { min-height: 72px; resize: vertical; }
+    .input-group textarea { min-height: 70px; resize: vertical; }
 
     .cart-bar {
       position: fixed;
@@ -251,31 +252,33 @@
       width: 100%;
       background-color: #0d0d0d;
       border-top: 2px solid var(--accent);
-      padding: 12px 18px;
+      padding: 10px 14px calc(26px + env(safe-area-inset-bottom, 0px));
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
       z-index: 100;
     }
-    .total-box span { display: block; font-size: 0.78rem; color: var(--text-muted); }
-    .total-box strong { font-size: 1.38rem; color: var(--accent); }
+    .total-box { min-width: 0; }
+    .total-box span { display: block; font-size: 0.74rem; line-height: 1.25; color: var(--text-muted); margin-bottom: 2px; }
+    .total-box strong { font-size: 1.32rem; line-height: 1.15; color: var(--accent); }
     .btn-whatsapp {
       background-color: var(--whatsapp);
       color: #000;
       border: none;
-      padding: 12px 18px;
+      padding: 11px 15px;
       border-radius: 8px;
-      font-size: 0.96rem;
+      font-size: 0.9rem;
       font-weight: bold;
       cursor: pointer;
+      flex-shrink: 0;
     }
     .btn-whatsapp:disabled { background-color: #444; color: #888; cursor: not-allowed; }
   </style>
 </head>
 <body>
   <div class="top-strip">
-    Atención: <strong>09:00 a 20:00 hs</strong> · Envíos <strong>SIN CARGO</strong> en Paysandú desde las 11:00 hs
+    <strong>09:00 a 20:00 hs</strong> · Envíos <strong>SIN CARGO</strong> desde 11:00 hs · Paysandú
   </div>
 
   <header>
@@ -370,7 +373,7 @@
 
   <footer class="cart-bar">
     <div class="total-box">
-      <span>Total estimado (Envío $0):</span>
+      <span id="total-label">Total estimado (Envío $0):</span>
       <strong id="total-price">$0</strong>
     </div>
     <button type="button" class="btn-whatsapp" id="btn-send" onclick="enviarPedido()" disabled>
@@ -526,6 +529,7 @@
 
       const redondeado = Math.round(total);
       document.getElementById("total-price").textContent = `$${redondeado}`;
+      document.getElementById("total-label").textContent = pizzasProntas > 0 ? "Total estimado (pizzas incl.):" : "Total estimado (Envío $0):";
       document.getElementById("btn-send").disabled = !hayItems;
       return redondeado;
     }
@@ -563,5 +567,5 @@
     renderTodo();
   </script>
 </body>
-  </html>
-  
+          </html>
+          
