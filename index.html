@@ -118,7 +118,7 @@
     .combo-list { list-style: none; font-size: 0.83rem; color: #d6d6d6; margin-bottom: 8px; }
     .combo-list li::before { content: "• "; color: var(--accent); font-weight: bold; }
     .product-info .price { font-size: 1.15rem; font-weight: bold; color: var(--accent); }
-    .price-note { font-size: 0.85rem; font-weight: 600; color: var(--accent); }
+    .price-promo { font-size: 0.78rem; color: #8be9a8; margin-top: 2px; font-weight: 600; }
 
     .controls {
       display: flex;
@@ -188,12 +188,12 @@
     .order-details h3 { margin-bottom: 12px; color: var(--accent); font-size: 1.08rem; }
     .field-label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    .payment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    .payment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
     .pay-card {
       background: #141414;
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 10px;
+      padding: 11px;
       cursor: pointer;
       display: flex;
       align-items: flex-start;
@@ -201,8 +201,36 @@
     }
     .pay-card.selected { border-color: var(--accent); background: #262015; }
     .pay-card input { accent-color: var(--accent); margin-top: 3px; }
-    .pay-card strong { display: block; font-size: 0.9rem; color: var(--text-light); }
-    .pay-card span { display: block; font-size: 0.74rem; color: var(--text-muted); }
+    .pay-card strong { display: block; font-size: 0.92rem; color: var(--text-light); }
+    .pay-card span { display: block; font-size: 0.75rem; color: var(--text-muted); }
+
+    .transfer-box {
+      display: none;
+      background: #141414;
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 14px;
+    }
+    .transfer-box.open { display: block; }
+    .transfer-box p { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
+    .account-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 9px 10px;
+      border-radius: 8px;
+      background: #1c1c1c;
+      border: 1px solid #2e2e2e;
+      margin-bottom: 6px;
+      cursor: pointer;
+      font-size: 0.84rem;
+    }
+    .account-option:last-child { margin-bottom: 0; }
+    .account-option input { accent-color: var(--accent); margin-top: 2px; }
+    .account-option strong { display: block; color: var(--accent); font-size: 0.86rem; }
+    .account-option code { display: block; color: #f0f0f0; font-size: 0.8rem; margin-top: 2px; }
+    .account-option small { display: block; color: var(--text-muted); font-size: 0.76rem; margin-top: 2px; }
 
     .input-group { margin-bottom: 12px; }
     .input-group input, .input-group select, .input-group textarea {
@@ -215,7 +243,6 @@
       font-size: 0.95rem;
     }
     .input-group textarea { min-height: 72px; resize: vertical; }
-    .error-msg { color: #ff6b6b; font-size: 0.85rem; margin-top: 6px; display: none; }
 
     .cart-bar {
       position: fixed;
@@ -298,17 +325,28 @@
           <input type="radio" name="pago" value="Efectivo" checked>
           <div><strong>Efectivo</strong><span>Pagás al recibir</span></div>
         </label>
-        <label class="pay-card" id="pay-lbl-Tarjeta" onclick="elegirPago('Tarjeta')">
-          <input type="radio" name="pago" value="Tarjeta">
-          <div><strong>Tarjeta</strong><span>Débito o Crédito</span></div>
+        <label class="pay-card" id="pay-lbl-Transferencia" onclick="elegirPago('Transferencia')">
+          <input type="radio" name="pago" value="Transferencia">
+          <div><strong>Transferencia</strong><span>Mercado Pago o OCA Blue</span></div>
         </label>
-        <label class="pay-card" id="pay-lbl-CABLU" onclick="elegirPago('CABLU')">
-          <input type="radio" name="pago" value="CABLU">
-          <div><strong>CABLU</strong><span>Orden / Pago CABLU</span></div>
+      </div>
+
+      <div class="transfer-box" id="transfer-box">
+        <p>Elegí dónde vas a transferir:</p>
+        <label class="account-option">
+          <input type="radio" name="cuenta-transferencia" value="Mercado Pago — 1007077166098" checked onchange="elegirCuenta(this.value)">
+          <div>
+            <strong>Mercado Pago</strong>
+            <code>1007077166098</code>
+          </div>
         </label>
-        <label class="pay-card" id="pay-lbl-OCA Blue" onclick="elegirPago('OCA Blue')">
-          <input type="radio" name="pago" value="OCA Blue">
-          <div><strong>Cuenta OCA Blue</strong><span>Transferencia</span></div>
+        <label class="account-option">
+          <input type="radio" name="cuenta-transferencia" value="OCA Blue — Cuenta pesos: 9777060 (Carlos Marcelo Martinez Demaria)" onchange="elegirCuenta(this.value)">
+          <div>
+            <strong>OCA Blue</strong>
+            <code>N° de cuenta pesos: 9777060</code>
+            <small>Carlos Marcelo Martinez Demaria</small>
+          </div>
         </label>
       </div>
 
@@ -327,13 +365,12 @@
       <div class="input-group">
         <textarea id="cliente-notas" placeholder="Aclaraciones o horario preferido de entrega (opcional)"></textarea>
       </div>
-      <div class="error-msg" id="error-msg"></div>
     </section>
   </main>
 
   <footer class="cart-bar">
     <div class="total-box">
-      <span id="total-label">Total estimado (Envío $0):</span>
+      <span>Total estimado (Envío $0):</span>
       <strong id="total-price">$0</strong>
     </div>
     <button type="button" class="btn-whatsapp" id="btn-send" onclick="enviarPedido()" disabled>
@@ -344,6 +381,7 @@
   <script>
     const TELEFONO_WHATSAPP = "59896643887";
     let medioPago = "Efectivo";
+    let cuentaElegida = "Mercado Pago — 1007077166098";
 
     const congelados = {
       carne: { nombre: "Milanesas de Carne", tag: "Clásico", desc: "Apanadas, sin fritar, listas para cocinar.", precio: 590, kilos: 0 },
@@ -352,15 +390,19 @@
     };
 
     const combos = {
-      combo20: { nombre: "Combo 20", tag: "10–15 personas", precio: 1525, cant: 0, items: ["20 Hamburguesas + 20 Panes", "500g Ketchup + 500g Mayonesa", "2kg Papas Butler"] },
-      combo30: { nombre: "Combo 30 — El Favorito", tag: "El Favorito", featured: true, precio: 2170, cant: 0, items: ["30 Hamburguesas + 30 Panes", "500g Ketchup + 1kg Mayonesa", "3kg Papas Butler"] },
-      combo40: { nombre: "Combo 40", tag: "Gran reunión", precio: 2810, cant: 0, items: ["40 Hamburguesas + 40 Panes", "1kg Ketchup + 1kg Mayonesa", "4kg Papas Butler"] }
+      combo20: { nombre: "Combo 20", tag: "10–15 personas", precio: 1775, cant: 0, items: ["20 Hamburguesas + 20 Panes", "500g Ketchup + 500g Mayonesa", "2kg Papas Butler"] },
+      combo30: { nombre: "Combo 30 — El Favorito", tag: "El Favorito", featured: true, precio: 2420, cant: 0, items: ["30 Hamburguesas + 30 Panes", "500g Ketchup + 1kg Mayonesa", "3kg Papas Butler"] },
+      combo40: { nombre: "Combo 40", tag: "Gran reunión", precio: 3060, cant: 0, items: ["40 Hamburguesas + 40 Panes", "1kg Ketchup + 1kg Mayonesa", "4kg Papas Butler"] }
     };
 
     const BUDIN_PRECIO = 200;
     const SABORES_BUDIN = ["Budín Inglés", "Marmolado", "Vainilla", "Limón", "Naranja", "Chocolate", "Nueces y Almendras", "Nueces y Maní", "Coco y Dulce de Leche", "Chispas de Chocolate", "Carrot Cake"];
     const budines = {};
     let pizzasProntas = 0;
+
+    function getPrecioPizzaUnitario(cant) {
+      return cant > 5 ? 100 : 120;
+    }
 
     function formatKilos(kg) {
       return Number.isInteger(kg) ? `${kg} kg` : `${kg.toFixed(1).replace(".", ",")} kg`;
@@ -400,6 +442,9 @@
       `).join("");
 
       const saboresActivos = Object.entries(budines).filter(([, q]) => q > 0);
+      const precioPizzaActual = getPrecioPizzaUnitario(pizzasProntas);
+      const subtotalPizzas = pizzasProntas * precioPizzaActual;
+
       document.getElementById("lista-panaderia").innerHTML = `
         <div class="product-card column-card">
           <div class="product-info">
@@ -428,7 +473,8 @@
             <span class="tag-mini">Panadería</span>
             <h3>Pizzas Prontas para Hornear</h3>
             <p class="desc">Listas para llevar al horno en casa.</p>
-            <div class="price-note">Precio a confirmar por WhatsApp</div>
+            <div class="price">$${precioPizzaActual} c/u${pizzasProntas > 0 ? ` · Subtotal: $${subtotalPizzas}` : ""}</div>
+            <div class="price-promo">$120 c/u (1 a 5 u.) · $100 c/u llevando más de 5</div>
           </div>
           <div class="controls">
             <button type="button" class="btn-qty" onclick="updPizza(-1)" ${pizzasProntas <= 0 ? "disabled" : ""}>-</button>
@@ -455,9 +501,14 @@
 
     function elegirPago(metodo) {
       medioPago = metodo;
-      ["Efectivo", "Tarjeta", "CABLU", "OCA Blue"].forEach(m => {
+      ["Efectivo", "Transferencia"].forEach(m => {
         document.getElementById("pay-lbl-" + m).classList.toggle("selected", m === metodo);
       });
+      document.getElementById("transfer-box").classList.toggle("open", metodo === "Transferencia");
+    }
+
+    function elegirCuenta(val) {
+      cuentaElegida = val;
     }
 
     function toggleDireccion() {
@@ -471,11 +522,10 @@
       for (const k in congelados) if (congelados[k].kilos > 0) { total += congelados[k].kilos * congelados[k].precio; hayItems = true; }
       for (const k in combos) if (combos[k].cant > 0) { total += combos[k].cant * combos[k].precio; hayItems = true; }
       for (const s in budines) if (budines[s] > 0) { total += budines[s] * BUDIN_PRECIO; hayItems = true; }
-      if (pizzasProntas > 0) hayItems = true;
+      if (pizzasProntas > 0) { total += pizzasProntas * getPrecioPizzaUnitario(pizzasProntas); hayItems = true; }
 
       const redondeado = Math.round(total);
       document.getElementById("total-price").textContent = `$${redondeado}`;
-      document.getElementById("total-label").textContent = pizzasProntas > 0 ? "Total estimado (+ pizzas a confirmar):" : "Total estimado (Envío $0):";
       document.getElementById("btn-send").disabled = !hayItems;
       return redondeado;
     }
@@ -492,13 +542,17 @@
       msg += `*Modalidad:* ${entrega}\n`;
       if (entrega !== "Retiro en el local") msg += `*Dirección:* ${direccion}\n`;
       msg += `*Medio de pago:* ${medioPago}\n`;
+      if (medioPago === "Transferencia") msg += `*Destino de transferencia:* ${cuentaElegida}\n`;
       if (notas) msg += `*Aclaraciones:* ${notas}\n`;
       msg += `\n*Detalle del pedido:*\n`;
 
       for (const k in congelados) if (congelados[k].kilos > 0) msg += `• ${formatKilos(congelados[k].kilos)} de ${congelados[k].nombre} ($${Math.round(congelados[k].kilos * congelados[k].precio)})\n`;
       for (const k in combos) if (combos[k].cant > 0) msg += `• ${combos[k].cant} u. de ${combos[k].nombre} ($${combos[k].cant * combos[k].precio})\n`;
       for (const s in budines) if (budines[s] > 0) msg += `• ${budines[s]} u. Budín Artesanal (${s}) ($${budines[s] * BUDIN_PRECIO})\n`;
-      if (pizzasProntas > 0) msg += `• ${pizzasProntas} u. Pizzas Prontas para Hornear (Precio a confirmar)\n`;
+      if (pizzasProntas > 0) {
+        const unitPizza = getPrecioPizzaUnitario(pizzasProntas);
+        msg += `• ${pizzasProntas} u. Pizzas Prontas para Hornear ($${unitPizza} c/u = $${pizzasProntas * unitPizza})\n`;
+      }
 
       msg += `\n*Envío:* Sin cargo ($0)\n`;
       msg += `*TOTAL ESTIMADO: $${total}*`;
@@ -509,5 +563,5 @@
     renderTodo();
   </script>
 </body>
-            </html>
-            
+  </html>
+  
